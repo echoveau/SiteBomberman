@@ -2,6 +2,9 @@
 build/
 WebContent/WEB-INF/lib
 *.class
+.classpath
+.project
+.settings/
 
 # Log file
 *.log
