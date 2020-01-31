@@ -1,4 +1,6 @@
 # Compiled class file
+build/
+WebContent/WEB-INF/lib
 *.class
 
 # Log file
