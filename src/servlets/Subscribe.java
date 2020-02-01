@@ -1,3 +1,4 @@
+package servlets;
 
 
 import java.io.IOException;
@@ -8,16 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class About
+ * Servlet implementation class Subscribe
  */
-@WebServlet("/About")
-public class About extends HttpServlet {
+@WebServlet("/subscribe")
+public class Subscribe extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public About() {
+    public Subscribe() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +28,7 @@ public class About extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		this.getServletContext().getRequestDispatcher("/WEB-INF/aboutPage.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/subscribePage.jsp").forward(request, response);
 	}
 
 	/**

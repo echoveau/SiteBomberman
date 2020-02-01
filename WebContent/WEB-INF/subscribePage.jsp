@@ -10,10 +10,7 @@
 </head>
 <body>
 	<div style="background-image:url('inc/styles/03.png');"> 
-		</br>
 	  	<c:import url="menu.jsp"></c:import>
-	  	</br>
-	  	</br>
 	</div>
 	
 
