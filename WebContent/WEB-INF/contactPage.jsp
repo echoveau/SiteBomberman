@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div style="background-image:url('inc/styles/Wallpaper.jpeg');"> 
+	<div style="background-image:url('inc/styles/Wallpaper.jpeg');background-size: 1920px 1080px;"> 
 	  	<br>
 	  	<c:import url="menu.jsp"></c:import>
 	  	<br>

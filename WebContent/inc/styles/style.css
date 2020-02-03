@@ -9745,3 +9745,24 @@ form .succes {
     color: #090;
 }
 
+/* Forms --------------------------------------------------------------------------------------- */
+
+legend {
+    font-weight: bold;
+    color: #0568CD;
+}
+
+form label {
+    float: left;
+    width: 300px;
+    margin: 1px -0px 0px 0px;
+}
+
+form input {
+    margin: 1px 1px 0px 0px;
+    border: 1px #999 solid;
+}
+
+form input.sansLabel {
+    margin-left: 300px;
+}
