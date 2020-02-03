@@ -10,7 +10,10 @@
 </head>
 <body>
 	<div style="background-image:url('inc/styles/Wallpaper.jpeg');"> 
+	  	<br>
 	  	<c:import url="menu.jsp"></c:import>
+	  	<br>
+	  	<br>
 	</div>
 	
 	<section class="page-section" id="contact">
