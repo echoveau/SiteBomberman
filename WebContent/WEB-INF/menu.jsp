@@ -28,6 +28,9 @@
 		          <li class="nav-item">
 		            <a class="nav-link" href="<c:out value="about" />">A propos</a>
 		          </li>
+		          <li class="nav-item">
+		            <a class="nav-link" href="<c:out value="connexion" />">Connexion</a>
+		          </li>
 		        </ul>
 		      </div>
 		    </div>
