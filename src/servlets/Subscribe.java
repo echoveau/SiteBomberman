@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.Utilisateur;
+import dao.DAOFactory;
+import dao.UtilisateurDao;
 import forms.InscriptionForm;
 
 /**
@@ -21,31 +23,27 @@ import forms.InscriptionForm;
 @WebServlet("/subscribe")
 public class Subscribe extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
+	public static final String CONF_DAO_FACTORY = "daofactory";
 	public static final String ATT_USER = "utilisateur";
     public static final String ATT_FORM = "form";
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Subscribe() {
-        super();
-        // TODO Auto-generated constructor stub
+    
+    private UtilisateurDao utilisateurDao;
+        
+    public void init() throws ServletException {
+        /* Récupération d'une instance de notre DAO Utilisateur */
+        this.utilisateurDao = ( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getUtilisateurDao();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		this.getServletContext().getRequestDispatcher("/WEB-INF/subscribePage.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* Préparation de l'objet formulaire */
-        InscriptionForm form = new InscriptionForm();
+        InscriptionForm form = new InscriptionForm(utilisateurDao);
 		
         /* Appel au traitement et à la validation de la requête, et récupération du bean en résultant */
         Utilisateur utilisateur = form.inscrireUtilisateur( request );
