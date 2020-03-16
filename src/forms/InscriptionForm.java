@@ -44,11 +44,10 @@ public final class InscriptionForm {
         Utilisateur utilisateur = new Utilisateur();
 
         try {
-            validationEmail( email );
+            validationEmail( email, utilisateur);
         } catch ( Exception e ) {
             setErreur( CHAMP_EMAIL, e.getMessage() );
         }
-        utilisateur.setEmail( email );
 
         try {
             validationMotsDePasse( motDePasse, confirmation, utilisateur );
@@ -74,14 +73,27 @@ public final class InscriptionForm {
         return utilisateur;
     }
     
-    private void validationEmail( String email ) throws Exception {
-        if ( email != null ) {
-            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-                throw new Exception( "Merci de saisir une adresse mail valide." );
-            }
-        } else {
-            throw new Exception( "Merci de saisir une adresse mail." );
-        }
+    @SuppressWarnings("unused")
+	private void validationEmail( String email, Utilisateur utilisateur  ) throws Exception {
+    	Utilisateur user = null;
+    	
+    	if(!utilisateurDao.trouver(email, user)) {
+	        if ( email != null ) {
+	            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
+	                throw new Exception( "Merci de saisir une adresse mail valide." );
+	            }
+
+	            utilisateur.setEmail( email );
+	        } else {
+	            throw new Exception( "Merci de saisir une adresse mail." );
+	        }
+    	}else {
+    		throw new Exception( "L'adresse mail renseignée dispose déjà d'un compte." );
+    	}
+    	
+    	
+    	
+        
     }
 
     private void validationMotsDePasse( String motDePasse, String confirmation, Utilisateur utilisateur ) throws Exception {

@@ -52,11 +52,10 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	}
 
 	@Override
-	public Utilisateur trouver(String email) throws DAOException {
+	public boolean trouver(String email, Utilisateur utilisateur) throws DAOException {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
-	    Utilisateur utilisateur = null;
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
@@ -66,14 +65,15 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 	            utilisateur = map( resultSet );
+	            return true;
 	        }
+	        else return false;
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );
 	    } finally {
 	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
 	    }
 
-	    return utilisateur;
 	}
 	
 	/*
