@@ -11,7 +11,7 @@ public class Utilisateur {
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
 	}
-	public String getUserNAme() {
+	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userNAme) {
