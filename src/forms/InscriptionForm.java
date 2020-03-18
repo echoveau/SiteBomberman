@@ -5,7 +5,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jasypt.util.password.ConfigurablePasswordEncryptor;
+
 import beans.Utilisateur;
+import dao.UtilisateurDao;
 
 public final class InscriptionForm {
     private static final String CHAMP_EMAIL  = "email";
@@ -13,6 +16,10 @@ public final class InscriptionForm {
     private static final String CHAMP_CONF   = "confirmation";
     private static final String CHAMP_NOM    = "nom";
     
+
+    private static final String ALGO_CHIFFREMENT = "SHA-256";
+    
+    private UtilisateurDao      utilisateurDao;
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
 
@@ -24,6 +31,10 @@ public final class InscriptionForm {
         return erreurs;
     }
     
+    public InscriptionForm(UtilisateurDao utilisateurDao) {
+    	this.utilisateurDao = utilisateurDao ;
+    }
+    
     public Utilisateur inscrireUtilisateur( HttpServletRequest request ) {
         String email = getValeurChamp( request, CHAMP_EMAIL );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
@@ -33,19 +44,17 @@ public final class InscriptionForm {
         Utilisateur utilisateur = new Utilisateur();
 
         try {
-            validationEmail( email );
+            validationEmail( email, utilisateur);
         } catch ( Exception e ) {
             setErreur( CHAMP_EMAIL, e.getMessage() );
         }
-        utilisateur.setEmail( email );
 
         try {
-            validationMotsDePasse( motDePasse, confirmation );
+            validationMotsDePasse( motDePasse, confirmation, utilisateur );
         } catch ( Exception e ) {
             setErreur( CHAMP_PASS, e.getMessage() );
             setErreur( CHAMP_CONF, null );
         }
-        utilisateur.setPassWord( motDePasse );
 
         try {
             validationNom( nom );
@@ -55,6 +64,7 @@ public final class InscriptionForm {
         utilisateur.setUserName( nom );
 
         if ( erreurs.isEmpty() ) {
+        	utilisateurDao.creer( utilisateur );
             resultat = "Succès de l'inscription.";
         } else {
             resultat = "Échec de l'inscription.";
@@ -63,17 +73,30 @@ public final class InscriptionForm {
         return utilisateur;
     }
     
-    private void validationEmail( String email ) throws Exception {
-        if ( email != null ) {
-            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-                throw new Exception( "Merci de saisir une adresse mail valide." );
-            }
-        } else {
-            throw new Exception( "Merci de saisir une adresse mail." );
-        }
+    @SuppressWarnings("unused")
+	private void validationEmail( String email, Utilisateur utilisateur  ) throws Exception {
+    	Utilisateur user = null;
+    	
+    	if(!utilisateurDao.trouver(email, user)) {
+	        if ( email != null ) {
+	            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
+	                throw new Exception( "Merci de saisir une adresse mail valide." );
+	            }
+
+	            utilisateur.setEmail( email );
+	        } else {
+	            throw new Exception( "Merci de saisir une adresse mail." );
+	        }
+    	}else {
+    		throw new Exception( "L'adresse mail renseignée dispose déjà d'un compte." );
+    	}
+    	
+    	
+    	
+        
     }
 
-    private void validationMotsDePasse( String motDePasse, String confirmation ) throws Exception {
+    private void validationMotsDePasse( String motDePasse, String confirmation, Utilisateur utilisateur ) throws Exception {
         if ( motDePasse != null && confirmation != null ) {
             if ( !motDePasse.equals( confirmation ) ) {
                 throw new Exception( "Les mots de passe entrés sont différents, merci de les saisir à nouveau." );
@@ -83,6 +106,22 @@ public final class InscriptionForm {
         } else {
             throw new Exception( "Merci de saisir et confirmer votre mot de passe." );
         }
+        
+        /*
+         * Utilisation de la bibliothÃ¨que Jasypt pour chiffrer le mot de passe
+         * efficacement.
+         * 
+         * L'algorithme SHA-256 est ici utilisÃ©, avec par dÃ©faut un salage
+         * alÃ©atoire et un grand nombre d'itÃ©rations de la fonction de hashage.
+         * 
+         * La String retournÃ©e est de longueur 56 et contient le hash en Base64.
+         */
+        ConfigurablePasswordEncryptor passwordEncryptor = new ConfigurablePasswordEncryptor();
+        passwordEncryptor.setAlgorithm( ALGO_CHIFFREMENT );
+        passwordEncryptor.setPlainDigest( false );
+        String motDePasseChiffre = passwordEncryptor.encryptPassword( motDePasse );
+
+        utilisateur.setPassWord( motDePasseChiffre );
     }
 
     private void validationNom( String nom ) throws Exception {
