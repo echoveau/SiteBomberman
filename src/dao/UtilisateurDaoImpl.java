@@ -52,10 +52,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	}
 
 	@Override
-	public boolean trouver(String email, Utilisateur utilisateur) throws DAOException {
+	public Utilisateur trouver(String email) throws DAOException {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
+	    Utilisateur utilisateur = new Utilisateur();
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
@@ -65,15 +66,36 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 	            utilisateur = map( resultSet );
-	            return true;
+	            return utilisateur;
 	        }
-	        else return false;
+	        else return null;
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );
 	    } finally {
 	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
 	    }
 
+	}
+	
+	@Override
+	public boolean existe(String email) throws DAOException {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    Utilisateur utilisateur = new Utilisateur();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_PAR_EMAIL, false, email );
+	        resultSet = preparedStatement.executeQuery();
+	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
+	        return resultSet.next();
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
 	}
 	
 	/*
@@ -89,5 +111,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	    utilisateur.setUserName( resultSet.getString( "nom" ) );
 	    return utilisateur;
 	}
+
+
 	
 }

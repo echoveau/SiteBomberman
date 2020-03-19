@@ -77,7 +77,7 @@ public final class InscriptionForm {
 	private void validationEmail( String email, Utilisateur utilisateur  ) throws Exception {
     	Utilisateur user = null;
     	
-    	if(!utilisateurDao.trouver(email, user)) {
+    	if(!utilisateurDao.existe(email)) {
 	        if ( email != null ) {
 	            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
 	                throw new Exception( "Merci de saisir une adresse mail valide." );

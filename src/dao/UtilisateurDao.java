@@ -5,7 +5,7 @@ import beans.Utilisateur;
 public interface UtilisateurDao {
 
     void creer( Utilisateur utilisateur ) throws DAOException;
-
-    boolean trouver( String email, Utilisateur utilisateur ) throws DAOException;
-
+    Utilisateur trouver ( String email ) throws DAOException;
+    boolean existe( String email ) throws DAOException;
+    
 }

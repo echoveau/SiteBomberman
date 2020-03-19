@@ -23,7 +23,7 @@
 		            <fieldset>
 		                <h2 class="mt-0">Connexion</h2>
 		                <hr class="divider my-4">
-		                <p class="text-muted mb-5">Vous pouvez vous conneter via ce formulaire.</p>
+		                <p class="text-muted mb-5">Vous pouvez vous connecter via ce formulaire.</p>
 						
 						<label for="email">Adresse email <span class="requis">*</span></label>
 			            <input type="email" id="email" name="email" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" />
