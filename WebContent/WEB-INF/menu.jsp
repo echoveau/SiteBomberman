@@ -31,13 +31,13 @@
 											<a class="nav-link" href="#">${sessionScope.utilisateur.userName}</a>
 											<ul style="background:#696969;">
 												<li class="nav-item" id="marge">
-													<a class="nav-link" href="<c:out value="" />">Consulter le compte</a>
+													<a class="nav-link" href="<c:out value="viewAccount" />">Consulter le compte</a>
 												</li>
 				         						<li class="nav-item" id="marge">
 													<a class="nav-link" href="<c:out value="" />">Modifier le compte</a>
 												</li>
 												<li class="nav-item" id="marge">
-													<a class="nav-link" href="<c:out value="" />">Supprimer le compte</a>
+													<a class="nav-link" href="<c:out value="deleteAccount" />">Supprimer le compte</a>
 												</li>
 											</ul>
 										</li>

@@ -77,26 +77,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
 	}
 	
-	@Override
-	public boolean existe(String email) throws DAOException {
-		Connection connexion = null;
-	    PreparedStatement preparedStatement = null;
-	    ResultSet resultSet = null;
-	    Utilisateur utilisateur = new Utilisateur();
-
-	    try {
-	        /* Récupération d'une connexion depuis la Factory */
-	        connexion = daoFactory.getConnection();
-	        preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_PAR_EMAIL, false, email );
-	        resultSet = preparedStatement.executeQuery();
-	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
-	        return resultSet.next();
-	    } catch ( SQLException e ) {
-	        throw new DAOException( e );
-	    } finally {
-	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
-	    }
-	}
 	
 	/*
 	 * Simple méthode utilitaire permettant de faire la correspondance (le

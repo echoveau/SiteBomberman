@@ -16,19 +16,36 @@
 	  	<br>
 	</div>
 	
-	<h1>${sessionScope.utilisateur.userName}</h1>
-	
+	<br>
+	<div class="text-center">
+		<h2 class="mt-0">Historique</h2>
+	    <hr class="divider my-4">
+    </div>
+    <br>
 	
 	<c:choose>
 		<c:when test="${empty historiques}">
 			<p><b>Vous n'avez pas encore fait de partie</b></p>
 		</c:when>
 		
-		
 		<c:otherwise>
-			<c:forEach items="${historiques}" var="historique">
- 				<p>${historique.usernameJoueur1}     SALUT    ${historique.usernameJoueur2}  </p>
-			</c:forEach>
+		
+			<table>
+				<tr>
+					<th>Vainqueur </th>
+					<th>Perdant </th>
+					<th onclick="sortTable(0)">Score</th>
+					<th onclick="sortTable(1)">Map</th>
+				</tr>
+				<c:forEach items="${historiques}" var="historique">
+					<tr>
+						<td><p>${historique.usernameJoueur1}  (${historique.emailJoueur1})  </p></td>
+						<td><p>${historique.usernameJoueur2}  (${historique.emailJoueur2})  </p></td>
+						<td><p>${historique.score} </p></td>
+						<td><p>${historique.mapName} </p></td>
+					</tr>
+				</c:forEach>
+			</table>
 		</c:otherwise>
 	</c:choose>	
 </body>

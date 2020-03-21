@@ -35,7 +35,9 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 	        /* Récupération d'une connexion depuis la Factory */
 	        connexion = daoFactory.getConnection();
 	        preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_PAR_EMAIL, false, email );
+	        preparedStatement.setInt(2, 1);
 	        resultSet = preparedStatement.executeQuery();	       
+	        
 	        
 	        while ( resultSet.next() ) {
 	        	historiques.add(map(resultSet));

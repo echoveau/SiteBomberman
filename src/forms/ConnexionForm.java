@@ -39,13 +39,12 @@ public final class ConnexionForm {
 
         Utilisateur utilisateur = new Utilisateur();
         
-        if(!utilisateurDao.existe(email)) {
+
+        utilisateur = utilisateurDao.trouver(email);
+        if(utilisateur==null) {
         	setErreur( CHAMP_EMAIL, "Votre adresse n'est pas valide" );
         }
         else {
-            utilisateur = utilisateurDao.trouver(email);
-            System.out.println(email+"   ------    "+utilisateur.getEmail());
-
             try {
                 validationEmail( email, utilisateur.getEmail() );
             } catch ( Exception e ) {
