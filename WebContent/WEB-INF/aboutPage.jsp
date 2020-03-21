@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link type="text/css" rel="stylesheet" href="inc/styles/style.css" />
-<title>Insert title here</title>
+<title>About</title>
 </head>
 <body>
 	<div style="background-image:url('inc/styles/Wallpaper.jpeg');background-size: 1920px 1080px;"> 

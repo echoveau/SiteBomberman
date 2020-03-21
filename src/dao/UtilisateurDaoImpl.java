@@ -52,10 +52,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	}
 
 	@Override
-	public boolean trouver(String email, Utilisateur utilisateur) throws DAOException {
+	public Utilisateur trouver(String email) throws DAOException {
 		Connection connexion = null;
 	    PreparedStatement preparedStatement = null;
 	    ResultSet resultSet = null;
+	    Utilisateur utilisateur = new Utilisateur();
 
 	    try {
 	        /* Récupération d'une connexion depuis la Factory */
@@ -65,9 +66,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	        /* Parcours de la ligne de données de l'éventuel ResulSet retourné */
 	        if ( resultSet.next() ) {
 	            utilisateur = map( resultSet );
-	            return true;
+	            return utilisateur;
 	        }
-	        else return false;
+	        else return null;
 	    } catch ( SQLException e ) {
 	        throw new DAOException( e );
 	    } finally {
@@ -75,6 +76,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	    }
 
 	}
+	
 	
 	/*
 	 * Simple méthode utilitaire permettant de faire la correspondance (le
@@ -89,5 +91,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	    utilisateur.setUserName( resultSet.getString( "nom" ) );
 	    return utilisateur;
 	}
+
+
 	
 }

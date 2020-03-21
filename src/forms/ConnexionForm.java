@@ -5,16 +5,27 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jasypt.util.password.ConfigurablePasswordEncryptor;
+
 import beans.Utilisateur;
+import dao.UtilisateurDao;
 
 public final class ConnexionForm {
     private static final String CHAMP_EMAIL  = "email";
     private static final String CHAMP_PASS   = "motdepasse";
+    private UtilisateurDao utilisateurDao;
+    
+
+    private static final String ALGO_CHIFFREMENT = "SHA-256";
     
     private String              resultat;
     private Map<String, String> erreurs      = new HashMap<String, String>();
 
-    public String getResultat() {
+    public ConnexionForm(UtilisateurDao utilisateurDao) {
+    	this.utilisateurDao = utilisateurDao ;
+	}
+
+	public String getResultat() {
         return resultat;
     }
 
@@ -22,26 +33,32 @@ public final class ConnexionForm {
         return erreurs;
     }
     
-    public Utilisateur inscrireUtilisateur( HttpServletRequest request ) {
+    public Utilisateur verifierUtilisateur( HttpServletRequest request ) {
         String email = getValeurChamp( request, CHAMP_EMAIL );
         String motDePasse = getValeurChamp( request, CHAMP_PASS );
 
         Utilisateur utilisateur = new Utilisateur();
+        
 
-        try {
-            validationEmail( email );
-        } catch ( Exception e ) {
-            setErreur( CHAMP_EMAIL, e.getMessage() );
+        utilisateur = utilisateurDao.trouver(email);
+        if(utilisateur==null) {
+        	setErreur( CHAMP_EMAIL, "Votre adresse n'est pas valide" );
         }
-        utilisateur.setEmail( email );
+        else {
+            try {
+                validationEmail( email, utilisateur.getEmail() );
+            } catch ( Exception e ) {
+                setErreur( CHAMP_EMAIL, e.getMessage() );
+            }
+            utilisateur.setEmail( email );
 
-        try {
-            validationMotsDePasse( motDePasse);
-        } catch ( Exception e ) {
-            setErreur( CHAMP_PASS, e.getMessage() );
+            try {
+                validationMotsDePasse( motDePasse, utilisateur.getPassWord() );
+            } catch ( Exception e ) {
+                setErreur( CHAMP_PASS, e.getMessage() );
+            }
+            utilisateur.setPassWord( motDePasse );
         }
-        utilisateur.setPassWord( motDePasse );
-
         
         if ( erreurs.isEmpty() ) {
             resultat = "Succès de la connexion.";
@@ -52,22 +69,33 @@ public final class ConnexionForm {
         return utilisateur;
     }
     
-    private void validationEmail( String email ) throws Exception {
+    private void validationEmail( String email, String emailDB ) throws Exception {
         if ( email != null ) {
-            if ( !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
-                throw new Exception( "Merci de saisir une adresse mail valide." );
+            if ( email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
+                if(!email.equals(emailDB)) {
+                	throw new Exception( "Votre adresse n'est pas valide" );
+                }
+            }
+            else {
+            	throw new Exception( "Merci de saisir une adresse mail valide." );
             }
         } else {
             throw new Exception( "Merci de saisir une adresse mail." );
         }
     }
 
-    private void validationMotsDePasse( String motDePasse) throws Exception {
-       if ( motDePasse.length() < 3 ) {
-                throw new Exception( "Les mots de passe doivent contenir au moins 3 caractères." );
+    private void validationMotsDePasse( String motDePasse, String motDePasseDB) throws Exception {
+       if ( !(motDePasse.length() < 3) ) {
+           //Verification du mot de passe
+           ConfigurablePasswordEncryptor passwordCheck = new ConfigurablePasswordEncryptor();
+           passwordCheck.setAlgorithm( ALGO_CHIFFREMENT );
+           passwordCheck.setPlainDigest( false );
+           
+    	   if(!passwordCheck.checkPassword(motDePasse, motDePasseDB))
+               throw new Exception( "Mot de passe invalide." );
             
        } else {
-            throw new Exception( "Merci de saisir votre mot de passe." );
+            throw new Exception( "Le mot de passe doit avoir plus de 3 caractères." );
         }
     }
 

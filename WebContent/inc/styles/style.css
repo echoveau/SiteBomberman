@@ -2260,6 +2260,13 @@ fieldset:disabled a.btn {
   border-color: #f4623a;
 }
 
+.btn-secondary {
+  color: #fff;
+  margin-left : 10%;
+  background-color: #555753;
+  border-color: #555753;
+}
+
 .btn-primary:hover {
   color: #fff;
   background-color: #f24516;
@@ -9765,3 +9772,62 @@ form input {
 form input.sansLabel {
     margin-left: 300px;
 }
+
+/* Menu Deroulant --------------------------------------------------------------------------------------- */
+
+#menu-deroulant, #menu-deroulant ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#menu-deroulant li {
+/* on place les liens du menu horizontalement */
+    display: inline-block;
+}
+#menu-deroulant ul li {
+/* on enlève ce comportement pour les liens du sous menu */
+    display: inherit;
+}
+#menu-deroulant a {
+    text-decoration: none;
+    display: block;
+	color:#000;
+}
+#menu-deroulant ul {
+    position: absolute;
+/* on cache les sous menus complètement sur la gauche */
+    left: -999em; 
+    text-align: left;
+    z-index: 1000;
+}
+#menu-deroulant li:hover ul {
+/* Au survol des li du menu on replace les sous menus */
+    left: auto;
+}
+
+#marge{
+	margin-top: 10%;
+	margin-bottom: 10%;
+}
+
+/* Table --------------------------------------------------------------------------------------- */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4623a;
+  color: white;
+}
+
+tr:hover {background-color:#f5f5f5;}
+

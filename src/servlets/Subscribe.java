@@ -2,11 +2,15 @@ package servlets;
 
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Utilisateur;
 import dao.DAOFactory;
@@ -48,7 +52,16 @@ public class Subscribe extends HttpServlet {
         request.setAttribute( ATT_FORM, form );
         request.setAttribute( ATT_USER, utilisateur );
         
-		doGet(request, response);
+		if(form.getErreurs().isEmpty()) {		
+	        //PASSAGE EN SESSION de l'utilisateur
+			HttpSession session = request.getSession();
+			session.setAttribute(ATT_USER, utilisateur);
+			
+			this.getServletContext().getRequestDispatcher("/WEB-INF/mainPage.jsp").forward(request, response);
+		}
+		else
+			this.getServletContext().getRequestDispatcher("/WEB-INF/subscribePage.jsp").forward(request, response);
+		
 	}
 
 }
