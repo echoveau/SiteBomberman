@@ -19,12 +19,12 @@ public class DAOFactory {
     private String              username;
     private String              password;
 
-    DAOFactory( String url, String username, String password ) {
+    public DAOFactory( String url, String username, String password ) {
         this.url = url;
         this.username = username;
         this.password = password;
     }
-
+    
     /*
      * Méthode chargée de récupérer les informations de connexion à la base de
      * données, charger le driver JDBC et retourner une instance de la Factory
