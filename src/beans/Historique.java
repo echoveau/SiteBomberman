@@ -2,14 +2,13 @@ package beans;
 
 public class Historique {
 	private Long id;
-	private String emailJoueur1;
-	private String emailJoueur2;
-	private String usernameJoueur1;
-	private String usernameJoueur2;
+	private String emailJoueur;
+	private String usernameJoueur;
+	private String victoire;
+	private String modeJeu;
+	private int nbJoueur;
 	private int score;
 	private String mapName;
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -17,29 +16,35 @@ public class Historique {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUsernameJoueur1() {
-		return usernameJoueur1;
+	public String getEmailJoueur() {
+		return emailJoueur;
 	}
-	public void setUsernameJoueur1(String usernameJoueur1) {
-		this.usernameJoueur1 = usernameJoueur1;
+	public void setEmailJoueur(String emailJoueur) {
+		this.emailJoueur = emailJoueur;
 	}
-	public String getUsernameJoueur2() {
-		return usernameJoueur2;
+	public String getUsernameJoueur() {
+		return usernameJoueur;
 	}
-	public void setUsernameJoueur2(String usernameJoueur2) {
-		this.usernameJoueur2 = usernameJoueur2;
+	public void setUsernameJoueur(String usernameJoueur) {
+		this.usernameJoueur = usernameJoueur;
 	}
-	public String getEmailJoueur1() {
-		return emailJoueur1;
+	public String isVictoire() {
+		return victoire;
 	}
-	public void setEmailJoueur1(String emailJoueur1) {
-		this.emailJoueur1 = emailJoueur1;
+	public void setVictoire(String victoire) {
+		this.victoire = victoire;
 	}
-	public String getEmailJoueur2() {
-		return emailJoueur2;
+	public String getModeJeu() {
+		return modeJeu;
 	}
-	public void setEmailJoueur2(String emailJoueur2) {
-		this.emailJoueur2 = emailJoueur2;
+	public void setModeJeu(String modeJeu) {
+		this.modeJeu = modeJeu;
+	}
+	public int getNbJoueur() {
+		return nbJoueur;
+	}
+	public void setNbJoueur(int nbJoueur) {
+		this.nbJoueur = nbJoueur;
 	}
 	public int getScore() {
 		return score;
@@ -53,4 +58,6 @@ public class Historique {
 	public void setMapName(String mapName) {
 		this.mapName = mapName;
 	}
+	
+	
 }

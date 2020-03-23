@@ -7,6 +7,7 @@
 
 -- On drop les tables déjà existante 
 DROP TABLE bomberman_site.Utilisateur;
+DROP TABLE bomberman_site.Historique;
 
 -- Création de la tables Utilisateur :
 CREATE TABLE  bomberman_site.Utilisateur (
@@ -21,10 +22,11 @@ CREATE TABLE  bomberman_site.Utilisateur (
 -- Création de la table Historique :
 CREATE TABLE  bomberman_site.Historique (
  id INT( 11 ) NOT NULL AUTO_INCREMENT ,
- emailJoueur1 VARCHAR( 60 ) NOT NULL ,
- usernameJoueur1 VARCHAR( 60 ) NOT NULL ,
- emailJoueur2 VARCHAR( 60 ),
- usernameJoueur2 VARCHAR( 60 ),
+ emailJoueur VARCHAR( 60 ) NOT NULL ,
+ usernameJoueur VARCHAR( 60 ) NOT NULL ,
+ victoire VARCHAR( 60 ) NOT NULL ,
+ modeJeu VARCHAR( 60 ),
+ nbJoueur INT(11),
  score INT(11) NOT NULL,
  mapName VARCHAR( 60 ) NOT NULL,
  PRIMARY KEY ( id )
