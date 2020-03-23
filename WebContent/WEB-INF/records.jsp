@@ -32,15 +32,17 @@
 		
 			<table>
 				<tr>
-					<th>Vainqueur </th>
-					<th>Perdant </th>
+					<th>Joueur </th>
+					<th>Mode de jeu</th>
+					<th>Nombre de joueur</th>
 					<th onclick="sortTable(0)">Score</th>
 					<th onclick="sortTable(1)">Map</th>
 				</tr>
 				<c:forEach items="${historiques}" var="historique">
 					<tr>
-						<td><p>${historique.usernameJoueur1}  (${historique.emailJoueur1})  </p></td>
-						<td><p>${historique.usernameJoueur2}  (${historique.emailJoueur2})  </p></td>
+						<td><p>${historique.usernameJoueur}  (${historique.emailJoueur})  </p></td>
+						<td><p>${historique.modeJeu} </p></td>
+						<td><p>${historique.nbJoueur} </p></td>
 						<td><p>${historique.score} </p></td>
 						<td><p>${historique.mapName} </p></td>
 					</tr>

@@ -14,7 +14,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	private static final String SQL_SELECT_PAR_EMAIL = "SELECT id, email, nom, mot_de_passe FROM Utilisateur WHERE email = ?";
 	private static final String SQL_INSERT = "INSERT INTO Utilisateur (email, mot_de_passe, nom) VALUES (?, ?, ?)";
 	
-    UtilisateurDaoImpl( DAOFactory daoFactory ) {
+    public UtilisateurDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
     }
 	
