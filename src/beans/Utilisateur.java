@@ -6,6 +6,18 @@ public class Utilisateur {
 	private String userName;
 	private String email;
 	
+	
+	
+	public Utilisateur() {
+		super();
+	}
+	public Utilisateur(Utilisateur utilisateur) {
+		super();
+		this.id = utilisateur.getId();
+		this.passWord = utilisateur.getPassWord();
+		this.userName = utilisateur.getUserName();
+		this.email = utilisateur.getEmail();
+	}
 	public String getPassWord() {
 		return passWord;
 	}

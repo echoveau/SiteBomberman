@@ -32,14 +32,16 @@
 		
 			<table>
 				<tr>
+					<th>Date </th>
 					<th>Joueur </th>
 					<th>Mode de jeu</th>
 					<th>Nombre de joueur</th>
-					<th onclick="sortTable(0)">Score</th>
-					<th onclick="sortTable(1)">Map</th>
+					<th>Score</th>
+					<th>Map</th>
 				</tr>
 				<c:forEach items="${historiques}" var="historique">
 					<tr>
+						<td><p>${historique.datePartieFormate} </p></td>
 						<td><p>${historique.usernameJoueur}  (${historique.emailJoueur})  </p></td>
 						<td><p>${historique.modeJeu} </p></td>
 						<td><p>${historique.nbJoueur} </p></td>

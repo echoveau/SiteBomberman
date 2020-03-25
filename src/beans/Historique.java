@@ -1,7 +1,13 @@
 package beans;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class Historique {
-	private Long id;
+    DateFormat shortDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
+	
+    private Long id;
+	private Date datePartie;
 	private String emailJoueur;
 	private String usernameJoueur;
 	private String victoire;
@@ -57,6 +63,15 @@ public class Historique {
 	}
 	public void setMapName(String mapName) {
 		this.mapName = mapName;
+	}
+	public Date getDatePartie() {
+		return datePartie;
+	}
+	public String getDatePartieFormate() {
+		return shortDateFormat.format(datePartie);
+	}
+	public void setDatePartie(Date datePartie) {
+		this.datePartie = datePartie;
 	}
 	
 	

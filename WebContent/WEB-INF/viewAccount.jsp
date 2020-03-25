@@ -27,7 +27,6 @@
 		    <div class="col-lg-8" style="margin : auto;">
 		      	<p> Adresse mail :  <a href="">${sessionScope.utilisateur.email}</a></p>
 		      	<p> Nom d'utilisateur : ${sessionScope.utilisateur.userName}</p>
-		      	<p> Mot de passe : ${sessionScope.utilisateur.passWord}</p>
 	      	</div>
 	    </div>
 	  </section>

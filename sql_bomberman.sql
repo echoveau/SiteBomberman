@@ -22,6 +22,7 @@ CREATE TABLE  bomberman_site.Utilisateur (
 -- Création de la table Historique :
 CREATE TABLE  bomberman_site.Historique (
  id INT( 11 ) NOT NULL AUTO_INCREMENT ,
+ datePartie TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  emailJoueur VARCHAR( 60 ) NOT NULL ,
  usernameJoueur VARCHAR( 60 ) NOT NULL ,
  victoire VARCHAR( 60 ) NOT NULL ,

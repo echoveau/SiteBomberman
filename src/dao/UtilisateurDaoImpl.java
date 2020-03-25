@@ -13,6 +13,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	private DAOFactory          daoFactory;
 	private static final String SQL_SELECT_PAR_EMAIL = "SELECT id, email, nom, mot_de_passe FROM Utilisateur WHERE email = ?";
 	private static final String SQL_INSERT = "INSERT INTO Utilisateur (email, mot_de_passe, nom) VALUES (?, ?, ?)";
+	private static final String SQL_DELETE = "DELETE FROM Utilisateur WHERE email = ?";
+	private static final String SQL_UPDATE_SAME_PASSWORD = "UPDATE Utilisateur SET email=?,nom=? WHERE email = ?";
+	private static final String SQL_UPDATE = "UPDATE Utilisateur SET email=?,mot_de_passe=?,nom=? WHERE email = ?";
 	
     public UtilisateurDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
@@ -20,6 +23,58 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	
     /* Implémentation de la méthode trouver() définie dans l'interface UtilisateurDao */
 
+	@Override
+	public boolean modifier(boolean samePassword,String oldEmail, Utilisateur utilisateur) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet valeursAutoGenerees = null;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        if(samePassword)
+		        preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE_SAME_PASSWORD, true, utilisateur.getEmail(),utilisateur.getUserName(),oldEmail );
+	        else
+	        	preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE, true, utilisateur.getEmail(),utilisateur.getPassWord(),utilisateur.getUserName(),oldEmail );
+	        
+	        int statut = preparedStatement.executeUpdate();
+	        /* Analyse du statut retourné par la requête d'insertion */
+	        if ( statut == 0 ) 
+	        	return false;
+	        else
+	        	return true;
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+	    }
+	}
+    
+	
+	@Override
+	public boolean supprimer(String email) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet valeursAutoGenerees = null;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        preparedStatement = initialisationRequetePreparee( connexion, SQL_DELETE, true, email );
+	        int statut = preparedStatement.executeUpdate();
+	        /* Analyse du statut retourné par la requête d'insertion */
+	        if ( statut == 0 ) 
+	        	return false;
+	        else
+	        	return true;
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+	    }
+		
+	}
+    
 	@Override
 	public void creer(Utilisateur utilisateur) throws DAOException {
 		Connection connexion = null;
@@ -91,7 +146,5 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	    utilisateur.setUserName( resultSet.getString( "nom" ) );
 	    return utilisateur;
 	}
-
-
 	
 }

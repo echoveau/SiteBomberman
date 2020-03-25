@@ -34,7 +34,7 @@
 													<a class="nav-link" href="<c:out value="viewAccount" />">Consulter le compte</a>
 												</li>
 				         						<li class="nav-item" id="marge">
-													<a class="nav-link" href="<c:out value="" />">Modifier le compte</a>
+													<a class="nav-link" href="<c:out value="changeAccount" />">Modifier le compte</a>
 												</li>
 												<li class="nav-item" id="marge">
 													<a class="nav-link" href="<c:out value="deleteAccount" />">Supprimer le compte</a>
