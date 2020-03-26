@@ -53,7 +53,7 @@
 						
 
 		          <li class="nav-item">
-		            <a class="nav-link" href="<c:out value="about" />">Classement</a>
+		            <a class="nav-link" href="<c:out value="ranking" />">Classement</a>
 		          </li>
 		          <li class="nav-item">
 		            <a class="nav-link" href="<c:out value="contact" />">Contact</a>

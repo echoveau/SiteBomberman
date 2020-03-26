@@ -13,6 +13,7 @@ import beans.Historique;
 import beans.Utilisateur;
 public class HistoriqueDaoImpl implements HistoriqueDao {
 	private DAOFactory          daoFactory;
+	private static final String SQL_SELECT_ALL = "SELECT * from Historique ORDER BY score desc, usernameJoueur";
 	private static final String SQL_SELECT_PAR_EMAIL = "SELECT id, datePartie, emailJoueur, usernameJoueur, victoire, modeJeu, nbJoueur, score, mapName FROM Historique WHERE (emailJoueur = ?)";
 	private static final String SQL_INSERT = "INSERT INTO Historique (emailJoueur, usernameJoueur, victoire, modeJeu, nbJoueur, score, mapName) VALUES (?,?,?,?,?,?,?)";
 	private static final String SQL_UPDATE = "UPDATE Historique SET emailJoueur=?,usernameJoueur=? WHERE emailJoueur = ?";
@@ -82,6 +83,34 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 		
 	}
 
+	
+	@Override
+	public ArrayList<Historique> trouverTous() throws DAOException {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    ArrayList<Historique> historiques= new ArrayList<Historique>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_ALL, false );
+	        resultSet = preparedStatement.executeQuery();	       
+	        
+	        while ( resultSet.next() ) {
+	        	historiques.add(map(resultSet));
+	        }
+	        return historiques;
+	    } 
+	    catch ( SQLException e ) {throw new DAOException( e );} 
+	    finally {
+	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+	}	
+	
+	
+	
+	
 	@Override
 	public ArrayList<Historique> trouver(String email) throws DAOException {
 		Connection connexion = null;
@@ -105,7 +134,6 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 	    finally {
 	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
 	    }
-
 	}
 	
 	/*
@@ -125,6 +153,6 @@ public class HistoriqueDaoImpl implements HistoriqueDao {
 		historique.setScore( resultSet.getInt( "score" ) );
 		historique.setMapName( resultSet.getString( "mapName" ) );
 	    return historique;
-	}	
+	}
 
 }
