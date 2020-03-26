@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class RestrictionFilter
  */
-@WebFilter({"/records"})
+@WebFilter({"/records","/changeAccount","/deleteAccount","/viewAccount"})
 public class RestrictionFilter implements Filter {
 
     /**
