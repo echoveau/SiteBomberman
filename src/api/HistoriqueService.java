@@ -2,7 +2,10 @@ package api;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -33,6 +36,12 @@ public class HistoriqueService {
         String url;
         String nomUtilisateur;
         String motDePasse;
+        
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        //getTime() returns the current date in default time zone
+        Date date = calendar.getTime();
+        
+        histo.setDatePartie(date);
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream fichierProperties = classLoader.getResourceAsStream( FICHIER_PROPERTIES );
