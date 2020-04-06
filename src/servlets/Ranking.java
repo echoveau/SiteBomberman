@@ -14,6 +14,7 @@ import beans.Historique;
 import beans.Utilisateur;
 import dao.DAOFactory;
 import dao.HistoriqueDao;
+import dao.UtilisateurDao;
 
 /**
  * Servlet implementation class Ranking
@@ -22,10 +23,11 @@ import dao.HistoriqueDao;
 public class Ranking extends HttpServlet {
 	private static final long serialVersionUID = 1L;	
 	public static final String CONF_DAO_FACTORY = "daofactory";
-	public static final String ATT_USER = "utilisateur";
+	public static final String ATT_USER = "utilisateurs";
 	public static final String ATT_RECORDS = "historiques";
 
 	private HistoriqueDao historiqueDao;
+	private UtilisateurDao utilisateurDao;
 
     public Ranking() {
         super();
@@ -34,6 +36,7 @@ public class Ranking extends HttpServlet {
     public void init() throws ServletException {
         /* Récupération d'une instance de notre DAO historique */
         this.historiqueDao = ( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getHistoriqueDao();
+        this.utilisateurDao = ( (DAOFactory) getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getUtilisateurDao();
     }
 
 
@@ -41,7 +44,11 @@ public class Ranking extends HttpServlet {
 		ArrayList<Historique> historiques = new ArrayList<Historique>();
 		historiques = historiqueDao.trouverTous();
 		
+		ArrayList<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
+		utilisateurs = utilisateurDao.trouverTous();
+		
         request.setAttribute( ATT_RECORDS, historiques );
+        request.setAttribute( ATT_USER, utilisateurs );
 		this.getServletContext().getRequestDispatcher("/WEB-INF/ranking.jsp").forward(request, response);
 	}
 
