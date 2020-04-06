@@ -4,15 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static dao.DAOUtilitaire.*;
 
+import beans.Historique;
 import beans.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
 	
 	private DAOFactory          daoFactory;
-	private static final String SQL_SELECT_PAR_EMAIL = "SELECT id, email, nom, mot_de_passe FROM Utilisateur WHERE email = ?";
-	private static final String SQL_INSERT = "INSERT INTO Utilisateur (email, mot_de_passe, nom) VALUES (?, ?, ?)";
+	private static final String SQL_SELECT_PAR_EMAIL = "SELECT id, email, nom, mot_de_passe,nb_parties_gagnees,nb_parties_perdues FROM Utilisateur WHERE email = ?";
+	private static final String SQL_SELECT_ALL = "SELECT id, email, nom, mot_de_passe,nb_parties_gagnees,nb_parties_perdues FROM Utilisateur";
+	private static final String SQL_INSERT = "INSERT INTO Utilisateur (email, mot_de_passe, nom,nb_parties_gagnees ,nb_parties_perdues) VALUES (?, ?, ?, 0, 0)";
 	private static final String SQL_DELETE = "DELETE FROM Utilisateur WHERE email = ?";
 	private static final String SQL_UPDATE_SAME_PASSWORD = "UPDATE Utilisateur SET email=?,nom=? WHERE email = ?";
 	private static final String SQL_UPDATE = "UPDATE Utilisateur SET email=?,mot_de_passe=?,nom=? WHERE email = ?";
@@ -144,7 +148,33 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	    utilisateur.setEmail( resultSet.getString( "email" ) );
 	    utilisateur.setPassWord( resultSet.getString( "mot_de_passe" ) );
 	    utilisateur.setUserName( resultSet.getString( "nom" ) );
+	    utilisateur.setNbWonGames( resultSet.getInt( "nb_parties_gagnees" ) );
+	    utilisateur.setNbLostGames( resultSet.getInt( "nb_parties_perdues" ) );
 	    return utilisateur;
+	}
+
+	@Override
+	public ArrayList<Utilisateur> trouverTous() {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet resultSet = null;
+	    ArrayList<Utilisateur> utilisateurs= new ArrayList<Utilisateur>();
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        preparedStatement = initialisationRequetePreparee( connexion, SQL_SELECT_ALL, false );
+	        resultSet = preparedStatement.executeQuery();	       
+	        
+	        while ( resultSet.next() ) {
+	        	utilisateurs.add(map(resultSet));
+	        }
+	        return utilisateurs;
+	    } 
+	    catch ( SQLException e ) {throw new DAOException( e );} 
+	    finally {
+	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
 	}
 	
 }

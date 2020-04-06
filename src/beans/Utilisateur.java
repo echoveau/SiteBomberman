@@ -5,7 +5,9 @@ public class Utilisateur {
 	private String passWord;
 	private String userName;
 	private String email;
-	
+	private int nbWonGames;
+	private int nbLostGames;
+	private float ratio;
 	
 	
 	public Utilisateur() {
@@ -17,6 +19,10 @@ public class Utilisateur {
 		this.passWord = utilisateur.getPassWord();
 		this.userName = utilisateur.getUserName();
 		this.email = utilisateur.getEmail();
+		this.nbWonGames = utilisateur.getNbWonGames();
+		this.nbLostGames = utilisateur.getNbLostGames();
+		this.ratio = utilisateur.getRatio();
+		
 	}
 	public String getPassWord() {
 		return passWord;
@@ -41,6 +47,32 @@ public class Utilisateur {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public int getNbWonGames() {
+		return nbWonGames;
+	}
+	public void setNbWonGames(int nbWonGames) {
+		this.nbWonGames = nbWonGames;
+		if(nbLostGames!=0)
+			this.ratio = (float)nbWonGames/(float)nbLostGames;
+		else
+			this.ratio = nbWonGames;
+	}
+	public int getNbLostGames() {
+		return nbLostGames;
+	}
+	public void setNbLostGames(int nbLostGames) {
+		this.nbLostGames = nbLostGames;
+		if(nbLostGames!=0)
+			this.ratio = (float)nbWonGames/(float)nbLostGames;
+		else
+			this.ratio = nbWonGames;
+	}
+	public float getRatio() {
+		return ratio;
+	}
+	public void setRatio(float ratio) {
+		this.ratio = ratio;
 	}
 	
 }

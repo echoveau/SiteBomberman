@@ -14,7 +14,9 @@ CREATE TABLE  bomberman_site.Utilisateur (
  id INT( 11 ) NOT NULL AUTO_INCREMENT ,
  email VARCHAR( 60 ) NOT NULL ,
  mot_de_passe CHAR( 56 ) NOT NULL ,
- nom VARCHAR( 20 ) NOT NULL ,
+ nom VARCHAR( 20 ) NOT NULL , 
+ nb_parties_gagnees INT( 11 ) NOT NULL,
+ nb_parties_perdues INT( 11 ) NOT NULL,
  PRIMARY KEY ( id ),
  UNIQUE ( email )
 ) ENGINE = INNODB;
