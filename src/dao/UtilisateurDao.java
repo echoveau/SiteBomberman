@@ -10,4 +10,5 @@ public interface UtilisateurDao {
     Utilisateur trouver ( String email ) throws DAOException;
 	boolean modifier(boolean samePassword, String oldEmail, Utilisateur utilisateur);
 	ArrayList<Utilisateur> trouverTous();
+	boolean ajoutResultat( String email, String resultat);
 }

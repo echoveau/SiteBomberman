@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import static dao.DAOUtilitaire.*;
 
-import beans.Historique;
 import beans.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
@@ -20,6 +19,11 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	private static final String SQL_DELETE = "DELETE FROM Utilisateur WHERE email = ?";
 	private static final String SQL_UPDATE_SAME_PASSWORD = "UPDATE Utilisateur SET email=?,nom=? WHERE email = ?";
 	private static final String SQL_UPDATE = "UPDATE Utilisateur SET email=?,mot_de_passe=?,nom=? WHERE email = ?";
+	private static final String SQL_UPDATE_RESULTAT_VIC = "UPDATE Utilisateur SET nb_parties_gagnees=nb_parties_gagnees+1 WHERE email = ?";
+	private static final String SQL_UPDATE_RESULTAT_DEF = "UPDATE Utilisateur SET nb_parties_perdues=nb_parties_perdues+1 WHERE email = ?";
+	
+	private static final String DEFAITE = "defaite";
+	private static final String VICTOIRE = "victoire";
 	
     public UtilisateurDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
@@ -174,6 +178,41 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 	    catch ( SQLException e ) {throw new DAOException( e );} 
 	    finally {
 	        fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+	    }
+	}
+
+	@Override
+	public boolean ajoutResultat(String email, String resultat) {
+		Connection connexion = null;
+	    PreparedStatement preparedStatement = null;
+	    ResultSet valeursAutoGenerees = null;
+
+	    try {
+	        /* Récupération d'une connexion depuis la Factory */
+	        connexion = daoFactory.getConnection();
+	        switch(resultat) {
+	        	case VICTOIRE :
+	        		preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE_RESULTAT_VIC, true, email );
+	        		break;
+	        	case DEFAITE :
+	        		preparedStatement = initialisationRequetePreparee( connexion, SQL_UPDATE_RESULTAT_DEF, true, email );
+	        		break;
+	        	
+	        	default :
+	        		break;
+	        }
+	        
+	        
+	        int statut = preparedStatement.executeUpdate();
+	        /* Analyse du statut retourné par la requête d'insertion */
+	        if ( statut == 0 ) 
+	        	return false;
+	        else
+	        	return true;
+	    } catch ( SQLException e ) {
+	        throw new DAOException( e );
+	    } finally {
+	        fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
 	    }
 	}
 	

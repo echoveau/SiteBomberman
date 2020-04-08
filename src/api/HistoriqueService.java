@@ -16,6 +16,7 @@ import beans.Historique;
 import dao.DAOConfigurationException;
 import dao.DAOFactory;
 import dao.HistoriqueDao;
+import dao.UtilisateurDao;
 
 
 @Path("/historique")
@@ -57,8 +58,12 @@ public class HistoriqueService {
             motDePasse = properties.getProperty( PROPERTY_MOT_DE_PASSE );
             
             DAOFactory dao = new DAOFactory(url, nomUtilisateur, motDePasse);
+            UtilisateurDao userDao = dao.getUtilisateurDao();
             HistoriqueDao histoDao =  dao.getHistoriqueDao();
+            
     		histoDao.creer(histo);
+    		
+    		userDao.ajoutResultat(histo.getEmailJoueur(), histo.isVictoire());
     		
     		return histo;
     		
