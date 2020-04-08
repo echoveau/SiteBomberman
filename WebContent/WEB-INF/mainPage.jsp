@@ -22,7 +22,7 @@
 		        </div>
 		        <div class="col-lg-8 align-self-baseline">
 		          <p class="text-white-75 font-weight-light mb-5">Nous avons réalisé ce projet dans le cadre de notre cursus scolaire. L'objectif était de développer un jeu Bomberman en Java en utilisant le concept de Design Pattern </p>
-		          <a class="btn btn-primary btn-xl js-scroll-trigger" href="about">Télécharger</a>
+		          <a class="btn btn-primary btn-xl js-scroll-trigger" href="/SiteBomberman/BombermanClient.jar" download>Télécharger</a>
 		        </div>
 		      </div>
 			</div>
